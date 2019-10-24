@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {ActivityIndicator, StyleSheet} from 'react-native';
+import {ActivityIndicator, StyleSheet, TouchableOpacity} from 'react-native';
 import api from '../../services/api';
 
 import {
@@ -56,6 +56,11 @@ export default class User extends Component {
     });
   }
 
+  handleNavigate = repo => {
+    const {navigation} = this.props;
+    navigation.navigate('WebViewPage', {repo});
+  };
+
   loadRepositories = async () => {
     const {loadingItens, stars, perPage} = this.state;
     const {navigation} = this.props;
@@ -104,13 +109,16 @@ export default class User extends Component {
             data={stars}
             keyExtractor={star => String(star.id)}
             renderItem={({item}) => (
-              <Starred>
-                <OwnerAvatar source={{uri: item.owner.avatar_url}} />
-                <Info>
-                  <Title>{item.name}</Title>
-                  <Author>{item.owner.login}</Author>
-                </Info>
-              </Starred>
+              <TouchableOpacity
+                onPress={() => this.handleNavigate(item.html_url)}>
+                <Starred>
+                  <OwnerAvatar source={{uri: item.owner.avatar_url}} />
+                  <Info>
+                    <Title>{item.name}</Title>
+                    <Author>{item.owner.login}</Author>
+                  </Info>
+                </Starred>
+              </TouchableOpacity>
             )}
           />
         )}
