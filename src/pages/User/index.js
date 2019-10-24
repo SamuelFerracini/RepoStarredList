@@ -62,7 +62,7 @@ export default class User extends Component {
   };
 
   loadRepositories = async () => {
-    const {loadingItens, stars, perPage} = this.state;
+    const {stars, perPage} = this.state;
     const {navigation} = this.props;
     const {page} = this.state;
     const user = navigation.getParam('user');
